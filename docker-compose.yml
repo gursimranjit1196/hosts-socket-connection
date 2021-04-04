@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  server_host:
+    container_name: server-host-container
+    image: server-host-image
+    build:
+      context: ./server-host
+      dockerfile: Dockerfile
+    volumes:
+      - ./server-host:/usr/app
+    ports:
+      - "1313:1313"  
+
+  client_host:
+    container_name: client-host-container
+    image: client-host-image
+    build:
+      context: ./client-host
+      dockerfile: Dockerfile
+    volumes:
+      - ./client-host:/usr/app
+    depends_on:
+      - server_host
+    links:
+      - server_host
